@@ -11,7 +11,7 @@ else
 	VB=@
 endif
 
-TACOS_REPO = ../..
+TACOS_REPO = ../../..
 LIBC = $(TACOS_REPO)/libc
 HEADERS = $(LIBC)/include
 
