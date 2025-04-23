@@ -69,11 +69,11 @@
 typedef bool boolean;
 
 #else
-
+// UnmappedStack edit NOTE: changed this to not collide with libc definitions
 typedef enum 
 {
-    false	= 0,
-    true	= 1,
+    False	= 0,
+    True	= 1,
 	undef	= 0xFFFFFFFF
 } boolean;
 

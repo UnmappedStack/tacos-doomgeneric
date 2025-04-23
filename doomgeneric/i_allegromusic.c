@@ -50,17 +50,17 @@
 #define MUS_HEADER_MAGIC "MUS\x1a"
 
 
-static boolean music_initialized = false;
+static boolean music_initialized = False;
 
 
-static boolean musicpaused = false;
+static boolean musicpaused = False;
 static int current_music_volume;
 
 
 // Currently playing music track.
 MIDI *current_track_music = NULL;
 
-// If true, the currently playing track is being played on loop.
+// If True, the currently playing track is being played on loop.
 static boolean current_track_loop;
 
 
@@ -77,9 +77,9 @@ static void I_Allegro_ShutdownMusic(void)
 static boolean I_Allegro_InitMusic(void)
 {
 	// nothing here, it's all done by I_Allegro_InitSound
-	music_initialized = true;
+	music_initialized = True;
 
-	return true;
+	return True;
 }
 
 
@@ -125,7 +125,7 @@ static void I_Allegro_PauseSong(void)
 		return;
 	}
 
-	musicpaused = true;
+	musicpaused = True;
 
 	midi_pause();
 }
@@ -138,7 +138,7 @@ static void I_Allegro_ResumeSong(void)
 		return;
 	}
 
-	musicpaused = false;
+	musicpaused = False;
 
 	midi_resume();
 }
@@ -256,7 +256,7 @@ static boolean I_Allegro_MusicIsPlaying(void)
 {
 	if (!music_initialized)
 	{
-		return false;
+		return False;
 	}
 
 	return (current_track_music != NULL) && (midi_pos > 0);

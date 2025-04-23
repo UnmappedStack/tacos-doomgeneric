@@ -56,8 +56,8 @@ int M_CheckParmWithArgs(char *check, int num_args)
 //
 // M_ParmExists
 //
-// Returns true if the given parameter exists in the program's command
-// line arguments, false if not.
+// Returns True if the given parameter exists in the program's command
+// line arguments, False if not.
 //
 
 boolean M_ParmExists(char *check)

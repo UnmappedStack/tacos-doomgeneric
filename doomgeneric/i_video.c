@@ -65,7 +65,7 @@ struct FB_ScreenInfo
 	uint32_t bits_per_pixel;		/* guess what			*/
 	
 							/* >1 = FOURCC			*/
-	struct FB_BitField red;		/* bitfield in s_Fb mem if true color, */
+	struct FB_BitField red;		/* bitfield in s_Fb mem if True color, */
 	struct FB_BitField green;	/* else only length is significant */
 	struct FB_BitField blue;
 	struct FB_BitField transp;	/* transparency			*/
@@ -95,9 +95,9 @@ void I_GetEvent(void);
 
 byte *I_VideoBuffer = NULL;
 
-// If true, game is running as a screensaver
+// If True, game is running as a screensaver
 
-boolean screensaver_mode = false;
+boolean screensaver_mode = False;
 
 // Flag indicating whether the screen is currently visible:
 // when the screen isnt visible, don't render the screen
@@ -234,7 +234,7 @@ void I_InitGraphics (void)
     /* Allocate screen to draw to */
 	I_VideoBuffer = (byte*)Z_Malloc (SCREENWIDTH * SCREENHEIGHT, PU_STATIC, NULL);  // For DOOM to draw on
 
-	screenvisible = true;
+	screenvisible = True;
 
     extern void I_InitInput(void);
     I_InitInput();
@@ -359,7 +359,7 @@ void I_SetPalette (byte* palette)
 
 #ifdef CMAP256
 
-    palette_changed = true;
+    palette_changed = True;
 
 #endif  // CMAP256
 }

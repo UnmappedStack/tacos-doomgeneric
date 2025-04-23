@@ -16,7 +16,7 @@
 #undef uint32_t // ugly hack because Allegro is Old and doesn't know modern GCC has stdint.h
 
 
-static bool videomode_set = false;
+static bool videomode_set = False;
 
 static BITMAP *temp_bitmap = NULL;
 
@@ -57,7 +57,7 @@ void DG_Init() {
 		I_Error("Allegro init failed: %d %s\n", result, allegro_error);
 	}
 
-	I_AtExit(allegro_exit, true);
+	I_AtExit(allegro_exit, True);
 
 	LOCK_FUNCTION(key_callback);
 	LOCK_VARIABLE(s_KeyQueue);
@@ -110,7 +110,7 @@ void DG_DrawFrame()
 		// register an exit handler to return to text mode
 		// while this is also done by allegro_exit handler registered earlier
 		// that's too late for ENDOOM screen to work correctly
-		I_AtExit(back_to_text_mode, true);
+		I_AtExit(back_to_text_mode, True);
 
 		if (!screen) {
 			I_Error("screen is null\n");
@@ -131,8 +131,8 @@ void DG_DrawFrame()
 
 		clear_bitmap(temp_bitmap);
 
-		videomode_set = true;
-		palette_changed = true;
+		videomode_set = True;
+		palette_changed = True;
 	}
 
 #ifdef CMAP256
@@ -150,7 +150,7 @@ void DG_DrawFrame()
 		}
 		set_palette(pal);
 
-		palette_changed = false;
+		palette_changed = False;
 	}
 
 #endif  // CMAP256
@@ -444,7 +444,7 @@ int main(int argc, char **argv)
 {
 	doomgeneric_Create(argc, argv);
 
-	while (true)
+	while (True)
 	{
 		doomgeneric_Tick();
 	}

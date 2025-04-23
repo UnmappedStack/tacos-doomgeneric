@@ -71,10 +71,10 @@ static int recvtic;
 
 int gametic;
 
-// When set to true, a single tic is run each time TryRunTics() is called.
+// When set to True, a single tic is run each time TryRunTics() is called.
 // This is used for -timedemo mode.
 
-boolean singletics = false;
+boolean singletics = False;
 
 // Index of the local player.
 
@@ -95,7 +95,7 @@ fixed_t         offsetms;
 
 // Use new client syncronisation code
 
-static boolean  new_sync = true;
+static boolean  new_sync = True;
 
 // Callback functions for loop code.
 
@@ -151,7 +151,7 @@ static boolean BuildNewTic(void)
     {
         // In drone mode, do not generate any ticcmds.
 
-        return false;
+        return False;
     }
 
     if (new_sync)
@@ -160,17 +160,17 @@ static boolean BuildNewTic(void)
        // up very far
 
        if (!net_client_connected && maketic - gameticdiv > 2)
-           return false;
+           return False;
 
        // Never go more than ~200ms ahead
 
        if (maketic - gameticdiv > 8)
-           return false;
+           return False;
     }
     else
     {
        if (maketic - gameticdiv >= 5)
-           return false;
+           return False;
     }
 
     //printf ("mk:%i ",maketic);
@@ -186,11 +186,11 @@ static boolean BuildNewTic(void)
 
 #endif
     ticdata[maketic % BACKUPTICS].cmds[localplayer] = cmd;
-    ticdata[maketic % BACKUPTICS].ingame[localplayer] = true;
+    ticdata[maketic % BACKUPTICS].ingame[localplayer] = True;
 
     ++maketic;
 
-    return true;
+    return True;
 }
 
 //
@@ -451,7 +451,7 @@ void D_StartNetGame(net_gamesettings_t *settings,
 
 boolean D_InitNetGame(net_connect_data_t *connect_data)
 {
-    boolean result = false;
+    boolean result = False;
 #ifdef FEATURE_MULTIPLAYER
     net_addr_t *addr = NULL;
     int i;
@@ -459,7 +459,7 @@ boolean D_InitNetGame(net_connect_data_t *connect_data)
 
     // Call D_QuitNetGame on exit:
 
-    I_AtExit(D_QuitNetGame, true);
+    I_AtExit(D_QuitNetGame, True);
 
     player_class = connect_data->player_class;
 
@@ -529,7 +529,7 @@ boolean D_InitNetGame(net_connect_data_t *connect_data)
     {
         if (M_CheckParm("-drone") > 0)
         {
-            connect_data->drone = true;
+            connect_data->drone = True;
         }
 
         if (!NET_CL_Connect(addr, connect_data))
@@ -544,7 +544,7 @@ boolean D_InitNetGame(net_connect_data_t *connect_data)
 
         NET_WaitForLaunch();
 
-        result = true;
+        result = True;
     }
 #endif
 
@@ -637,11 +637,11 @@ static void OldNetSync(void)
     }
 }
 
-// Returns true if there are players in the game:
+// Returns True if there are players in the game:
 
 static boolean PlayersInGame(void)
 {
-    boolean result = false;
+    boolean result = False;
     unsigned int i;
 
     // If we are connected to a server, check if there are any players
@@ -660,7 +660,7 @@ static boolean PlayersInGame(void)
 
     if (!drone)
     {
-        result = true;
+        result = True;
     }
 
     return result;
@@ -694,7 +694,7 @@ static void SinglePlayerClear(ticcmd_set_t *set)
     {
         if (i != localplayer)
         {
-            set->ingame[i] = false;
+            set->ingame[i] = False;
         }
     }
 }

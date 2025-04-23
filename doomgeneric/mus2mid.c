@@ -117,7 +117,7 @@ static boolean WriteTime(unsigned int time, MEMFILE *midioutput)
 
         if (mem_fwrite(&writeval, 1, 1, midioutput) != 1)
         {
-            return true;
+            return True;
         }
 
         ++tracksize;
@@ -129,7 +129,7 @@ static boolean WriteTime(unsigned int time, MEMFILE *midioutput)
         else
         {
             queuedtime = 0;
-            return false;
+            return False;
         }
     }
 }
@@ -142,16 +142,16 @@ static boolean WriteEndTrack(MEMFILE *midioutput)
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(endtrack, 1, 3, midioutput) != 3)
     {
-        return true;
+        return True;
     }
 
     tracksize += 3;
-    return false;
+    return False;
 }
 
 // Write a key press event
@@ -162,31 +162,31 @@ static boolean WritePressKey(byte channel, byte key,
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = key & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = velocity & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     tracksize += 3;
 
-    return false;
+    return False;
 }
 
 // Write a key release event
@@ -197,31 +197,31 @@ static boolean WriteReleaseKey(byte channel, byte key,
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = key & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = 0;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     tracksize += 3;
 
-    return false;
+    return False;
 }
 
 // Write a pitch wheel/bend event
@@ -232,30 +232,30 @@ static boolean WritePitchWheel(byte channel, short wheel,
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = wheel & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = (wheel >> 7) & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     tracksize += 3;
-    return false;
+    return False;
 }
 
 // Write a patch change event
@@ -266,24 +266,24 @@ static boolean WriteChangePatch(byte channel, byte patch,
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = patch & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     tracksize += 2;
 
-    return false;
+    return False;
 }
 
 // Write a valued controller change event
@@ -297,19 +297,19 @@ static boolean WriteChangeController_Valued(byte channel,
 
     if (WriteTime(queuedtime, midioutput))
     {
-        return true;
+        return True;
     }
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     working = control & 0x7F;
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     // Quirk in vanilla DOOM? MUS controller values should be
@@ -327,12 +327,12 @@ static boolean WriteChangeController_Valued(byte channel,
 
     if (mem_fwrite(&working, 1, 1, midioutput) != 1)
     {
-        return true;
+        return True;
     }
 
     tracksize += 3;
 
-    return false;
+    return False;
 }
 
 // Write a valueless controller change event
@@ -479,7 +479,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
     if (!ReadMusHeader(musinput, &musfileheader))
     {
-        return true;
+        return True;
     }
 
 // [crispy] enable MUS format header check
@@ -491,7 +491,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
      || musfileheader.id[2] != 'S'
      || musfileheader.id[3] != 0x1A)
     {
-        return true;
+        return True;
     }
 #endif
 
@@ -499,7 +499,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     if (mem_fseek(musinput, (long)musfileheader.scorestart,
                   MEM_SEEK_SET) != 0)
     {
-        return true;
+        return True;
     }
 
     // So, we can assume the MUS file is faintly legit. Let's start
@@ -519,7 +519,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
             if (mem_fread(&eventdescriptor, 1, 1, musinput) != 1)
             {
-                return true;
+                return True;
             }
 
             channel = GetMIDIChannel(eventdescriptor & 0x0F, midioutput);
@@ -530,12 +530,12 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 case mus_releasekey:
                     if (mem_fread(&key, 1, 1, musinput) != 1)
                     {
-                        return true;
+                        return True;
                     }
 
                     if (WriteReleaseKey(channel, key, midioutput))
                     {
-                        return true;
+                        return True;
                     }
 
                     break;
@@ -543,14 +543,14 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 case mus_presskey:
                     if (mem_fread(&key, 1, 1, musinput) != 1)
                     {
-                        return true;
+                        return True;
                     }
 
                     if (key & 0x80)
                     {
                         if (mem_fread(&channelvelocities[channel], 1, 1, musinput) != 1)
                         {
-                            return true;
+                            return True;
                         }
 
                         channelvelocities[channel] &= 0x7F;
@@ -559,7 +559,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     if (WritePressKey(channel, key,
                                       channelvelocities[channel], midioutput))
                     {
-                        return true;
+                        return True;
                     }
 
                     break;
@@ -571,7 +571,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     }
                     if (WritePitchWheel(channel, (short)(key * 64), midioutput))
                     {
-                        return true;
+                        return True;
                     }
 
                     break;
@@ -579,18 +579,18 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 case mus_systemevent:
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                     {
-                        return true;
+                        return True;
                     }
                     if (controllernumber < 10 || controllernumber > 14)
                     {
-                        return true;
+                        return True;
                     }
 
                     if (WriteChangeController_Valueless(channel,
                                                         controller_map[controllernumber],
                                                         midioutput))
                     {
-                        return true;
+                        return True;
                     }
 
                     break;
@@ -598,12 +598,12 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                 case mus_changecontroller:
                     if (mem_fread(&controllernumber, 1, 1, musinput) != 1)
                     {
-                        return true;
+                        return True;
                     }
 
                     if (mem_fread(&controllervalue, 1, 1, musinput) != 1)
                     {
-                        return true;
+                        return True;
                     }
 
                     if (controllernumber == 0)
@@ -611,14 +611,14 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                         if (WriteChangePatch(channel, controllervalue,
                                              midioutput))
                         {
-                            return true;
+                            return True;
                         }
                     }
                     else
                     {
                         if (controllernumber < 1 || controllernumber > 9)
                         {
-                            return true;
+                            return True;
                         }
 
                         if (WriteChangeController_Valued(channel,
@@ -626,7 +626,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                                                          controllervalue,
                                                          midioutput))
                         {
-                            return true;
+                            return True;
                         }
                     }
 
@@ -637,7 +637,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
                     break;
 
                 default:
-                    return true;
+                    return True;
                     break;
             }
 
@@ -654,7 +654,7 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
             {
                 if (mem_fread(&working, 1, 1, musinput) != 1)
                 {
-                    return true;
+                    return True;
                 }
 
                 timedelay = timedelay * 128 + (working & 0x7F);
@@ -670,13 +670,13 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
     // End of track
     if (WriteEndTrack(midioutput))
     {
-        return true;
+        return True;
     }
 
     // Write the track size into the stream
     if (mem_fseek(midioutput, 18, MEM_SEEK_SET))
     {
-        return true;
+        return True;
     }
 
     tracksizebuffer[0] = (tracksize >> 24) & 0xff;
@@ -686,10 +686,10 @@ boolean mus2mid(MEMFILE *musinput, MEMFILE *midioutput)
 
     if (mem_fwrite(tracksizebuffer, 1, 4, midioutput) != 4)
     {
-        return true;
+        return True;
     }
 
-    return false;
+    return False;
 }
 
 #ifdef STANDALONE

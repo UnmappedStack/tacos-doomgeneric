@@ -46,7 +46,7 @@
 #define NUM_MIDI_CHANNELS 16
 
 
-static boolean sound_initialized = false;
+static boolean sound_initialized = False;
 
 static sfxinfo_t *channels_playing[NUM_CHANNELS];
 
@@ -71,7 +71,7 @@ float libsamplerate_scale = 0.65f;
 
 
 // Load and convert a sound effect
-// Returns true if successful
+// Returns True if successful
 
 static boolean CacheSFX(sfxinfo_t *sfxinfo)
 {
@@ -95,7 +95,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 	{
 		// Invalid sound
 
-		return false;
+		return False;
 	}
 
 	// 16 bit sample rate field, 32 bit length field
@@ -114,7 +114,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 
 	if (length > lumplen - 8 || length <= 48)
 	{
-		return false;
+		return False;
 	}
 
 	// The DMX sound library seems to skip the first 16 and last 16
@@ -125,7 +125,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 
 	sample = create_sample(8, 0, samplerate, length);
 	if (sample == NULL) {
-		return false;
+		return False;
 	}
 	memcpy(sample->data, data, length);
 
@@ -135,7 +135,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 
 	W_ReleaseLumpNum(lumpnum);
 
-	return true;
+	return True;
 }
 
 
@@ -293,21 +293,21 @@ static boolean I_Allegro_SoundIsPlaying(int handle)
 
 	if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
 	{
-		return false;
+		return False;
 	}
 
 	if (channels_playing[handle] == NULL) {
-		return false;
+		return False;
 	}
 
 	position = voice_get_position(allegro_voices[handle]);
 	if (position < 0) {
 		// finished
-		return false;
+		return False;
 	}
 
 	// still playing
-	return true;
+	return True;
 }
 
 // 
@@ -354,7 +354,7 @@ static void I_Allegro_ShutdownSound(void)
 
 	remove_sound();
 
-	sound_initialized = false;
+	sound_initialized = False;
 }
 
 
@@ -376,7 +376,7 @@ static boolean I_Allegro_InitSound(boolean _use_sfx_prefix)
 	i = install_sound(DIGI_AUTODETECT, MIDI_AUTODETECT, "allegro.cfg");
 	if (i < 0) {
 		printf("install_sound failed: %d \"%s\"\n", i, allegro_error);
-		return false;
+		return False;
 	}
 
 	printf("Allegro sound initialized\n");
@@ -392,16 +392,16 @@ static boolean I_Allegro_InitSound(boolean _use_sfx_prefix)
 	dummy_sample = create_sample(8, 0, 11025, 8);
 	if (dummy_sample == NULL) {
 		printf("Failed to create sound sample: %s\n", allegro_error);
-		return false;
+		return False;
 	}
 
 	for (i = 0; i < NUM_CHANNELS; i++) {
 		allegro_voices[i] = allocate_voice(dummy_sample);
 	}
 
-	sound_initialized = true;
+	sound_initialized = True;
 
-	return true;
+	return True;
 }
 
 

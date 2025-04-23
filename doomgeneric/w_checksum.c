@@ -43,7 +43,6 @@ static int GetFileNumber(wad_file_t *handle)
 
     // Not found in list.  This is a new file we haven't seen yet.
     // Allocate another slot for this file.
-
     open_wadfiles = realloc(open_wadfiles,
                             sizeof(wad_file_t *) * (num_open_wadfiles + 1));
     open_wadfiles[num_open_wadfiles] = handle;
@@ -76,7 +75,6 @@ void W_Checksum(sha1_digest_t digest)
 
     // Go through each entry in the WAD directory, adding information
     // about each entry to the SHA1 hash.
-
     for (i=0; i<numlumps; ++i)
     {
         ChecksumAddLump(&sha1_context, &lumpinfo[i]);

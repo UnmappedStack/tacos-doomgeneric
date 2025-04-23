@@ -1,4 +1,7 @@
 # doomgeneric
+
+**This is a fork of doomgeneric specifically for porting it to the [TacOS](https://github.com/UnmappedStack/TacOS) kernel. See the upstream repository for doomgeneric itself.**
+
 The purpose of doomgeneric is to make porting Doom easier.
 Of course Doom is already portable but with doomgeneric it is possible with just a few functions.
 

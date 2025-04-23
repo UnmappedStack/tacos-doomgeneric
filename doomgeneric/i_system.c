@@ -204,7 +204,7 @@ void I_PrintStartupBanner(char *gamedescription)
 // 
 // I_ConsoleStdout
 //
-// Returns true if stdout is a real console, false if it is a file
+// Returns True if stdout is a real console, False if it is a file
 //
 
 boolean I_ConsoleStdout(void)
@@ -354,7 +354,7 @@ static int ZenityErrorBox(char *message)
 // I_Error
 //
 
-static boolean already_quitting = false;
+static boolean already_quitting = False;
 
 void I_Error (char *error, ...)
 {
@@ -372,7 +372,7 @@ void I_Error (char *error, ...)
     }
     else
     {
-        already_quitting = true;
+        already_quitting = True;
     }
 
     // Message first.
@@ -448,15 +448,10 @@ void I_Error (char *error, ...)
                                         message,
                                         NULL);
     }
-#elif defined(__DJGPP__)
-    {
-        printf("%s\n", msgbuf);
-        exit(-1);
-    }
-
 #else
     {
-        ZenityErrorBox(msgbuf);
+        printf("\nDoomGeneric I_Error: %s\n", msgbuf);
+        exit(-1);
     }
 #endif
 
@@ -466,7 +461,7 @@ void I_Error (char *error, ...)
 
     exit(-1);
 #else
-    while (true)
+    while (True)
     {
     }
 #endif
@@ -504,13 +499,13 @@ static const unsigned char *dos_mem_dump = mem_dump_dos622;
 
 boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
 {
-    static boolean firsttime = true;
+    static boolean firsttime = True;
 
     if (firsttime)
     {
         int p, i, val;
 
-        firsttime = false;
+        firsttime = False;
         i = 0;
 
         //!
@@ -562,19 +557,19 @@ boolean I_GetMemoryValue(unsigned int offset, void *value, int size)
     {
     case 1:
         *((unsigned char *) value) = dos_mem_dump[offset];
-        return true;
+        return True;
     case 2:
         *((unsigned short *) value) = dos_mem_dump[offset]
                                     | (dos_mem_dump[offset + 1] << 8);
-        return true;
+        return True;
     case 4:
         *((unsigned int *) value) = dos_mem_dump[offset]
                                   | (dos_mem_dump[offset + 1] << 8)
                                   | (dos_mem_dump[offset + 2] << 16)
                                   | (dos_mem_dump[offset + 3] << 24);
-        return true;
+        return True;
     }
 
-    return false;
+    return False;
 }
 

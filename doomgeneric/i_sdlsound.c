@@ -56,9 +56,9 @@ struct allocated_sound_s
     allocated_sound_t *prev, *next;
 };
 
-static boolean setpanning_workaround = false;
+static boolean setpanning_workaround = False;
 
-static boolean sound_initialized = false;
+static boolean sound_initialized = False;
 
 static sfxinfo_t *channels_playing[NUM_CHANNELS];
 
@@ -149,7 +149,7 @@ static void FreeAllocatedSound(allocated_sound_t *snd)
 }
 
 // Search from the tail backwards along the allocated sounds list, find
-// and free a sound that is not in use, to free up memory.  Return true
+// and free a sound that is not in use, to free up memory.  Return True
 // for success.
 
 static boolean FindAndFreeSound(void)
@@ -163,7 +163,7 @@ static boolean FindAndFreeSound(void)
         if (snd->use_count == 0)
         {
             FreeAllocatedSound(snd);
-            return true;
+            return True;
         }
 
         snd = snd->prev;
@@ -171,7 +171,7 @@ static boolean FindAndFreeSound(void)
 
     // No available sounds to free...
 
-    return false;
+    return False;
 }
 
 // Enforce SFX cache size limit.  We are just about to allocate "len"
@@ -379,7 +379,7 @@ static boolean ExpandSoundData_SRC(sfxinfo_t *sfxinfo,
 
     if (chunk == NULL)
     {
-        return false;
+        return False;
     }
 
     expanded = (int16_t *) chunk->abuf;
@@ -441,7 +441,7 @@ static boolean ExpandSoundData_SRC(sfxinfo_t *sfxinfo,
                         400.0 * clipped / chunk->alen);
     }
 
-    return true;
+    return True;
 }
 
 #endif
@@ -458,7 +458,7 @@ static boolean ConvertibleRatio(int freq1, int freq2)
     {
         // Not in a direct ratio
 
-        return false;
+        return False;
     }
     else
     {
@@ -551,7 +551,7 @@ static boolean ExpandSoundData_SDL(sfxinfo_t *sfxinfo,
 
     if (chunk == NULL)
     {
-        return false;
+        return False;
     }
 
     // If we can, use the standard / optimized SDL conversion routines.
@@ -615,11 +615,11 @@ static boolean ExpandSoundData_SDL(sfxinfo_t *sfxinfo,
         }
 #endif /* #ifdef LOW_PASS_FILTER */
 
-    return true;
+    return True;
 }
 
 // Load and convert a sound effect
-// Returns true if successful
+// Returns True if successful
 
 static boolean CacheSFX(sfxinfo_t *sfxinfo)
 {
@@ -642,7 +642,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
     {
         // Invalid sound
 
-        return false;
+        return False;
     }
 
     // 16 bit sample rate field, 32 bit length field
@@ -661,7 +661,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 
     if (length > lumplen - 8 || length <= 48)
     {
-        return false;
+        return False;
     }
 
     // The DMX sound library seems to skip the first 16 and last 16
@@ -674,7 +674,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
 
     if (!ExpandSoundData(sfxinfo, data + 8, samplerate, length))
     {
-        return false;
+        return False;
     }
 
 #ifdef DEBUG_DUMP_WAVS
@@ -692,7 +692,7 @@ static boolean CacheSFX(sfxinfo_t *sfxinfo)
   
     W_ReleaseLumpNum(lumpnum);
 
-    return true;
+    return True;
 }
 
 static void GetSfxLumpName(sfxinfo_t *sfx, char *buf, size_t buf_len)
@@ -775,13 +775,13 @@ static boolean LockSound(sfxinfo_t *sfxinfo)
     {
         if (!CacheSFX(sfxinfo))
         {
-            return false;
+            return False;
         }
     }
 
     LockAllocatedSound(sfxinfo->driver_data);
 
-    return true;
+    return True;
 }
 
 //
@@ -897,7 +897,7 @@ static boolean I_SDL_SoundIsPlaying(int handle)
 {
     if (!sound_initialized || handle < 0 || handle >= NUM_CHANNELS)
     {
-        return false;
+        return False;
     }
 
     return Mix_Playing(handle);
@@ -935,7 +935,7 @@ static void I_SDL_ShutdownSound(void)
     Mix_CloseAudio();
     SDL_QuitSubSystem(SDL_INIT_AUDIO);
 
-    sound_initialized = false;
+    sound_initialized = False;
 }
 
 // Calculate slice size, based on snd_maxslicetime_ms.
@@ -981,13 +981,13 @@ static boolean I_SDL_InitSound(boolean _use_sfx_prefix)
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
         fprintf(stderr, "Unable to set up sound.\n");
-        return false;
+        return False;
     }
 
     if (Mix_OpenAudio(snd_samplerate, AUDIO_S16SYS, 2, GetSliceSize()) < 0)
     {
         fprintf(stderr, "Error initialising SDL_mixer: %s\n", Mix_GetError());
-        return false;
+        return False;
     }
 
     ExpandSoundData = ExpandSoundData_SDL;
@@ -1030,7 +1030,7 @@ static boolean I_SDL_InitSound(boolean _use_sfx_prefix)
 
         if (v <= SDL_VERSIONNUM(1, 2, 8))
         {
-            setpanning_workaround = true;
+            setpanning_workaround = True;
             fprintf(stderr, "\n"
               "ATTENTION: You are using an old version of SDL_mixer!\n"
               "           This version has a bug that may cause "
@@ -1044,9 +1044,9 @@ static boolean I_SDL_InitSound(boolean _use_sfx_prefix)
 
     SDL_PauseAudio(0);
 
-    sound_initialized = true;
+    sound_initialized = True;
 
-    return true;
+    return True;
 }
 
 static snddevice_t sound_sdl_devices[] = 
