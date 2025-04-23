@@ -27,6 +27,7 @@ SRC_DOOM = dummy.o am_map.o doomdef.o doomstat.o dstrings.o d_event.o d_items.o 
 OBJS += $(addprefix $(OBJDIR)/, $(SRC_DOOM))
 
 all:	 $(OUTPUT)
+	echo $(HEADERS)
 
 clean:
 	rm -rf $(OBJDIR)
