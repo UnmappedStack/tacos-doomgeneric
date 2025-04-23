@@ -16,7 +16,7 @@ LIBC = $(TACOS_REPO)/libc
 HEADERS = $(LIBC)/include
 
 CC=gcc # gcc or g++
-CFLAGS+=-ggdb -O0 -ffreestanding -I $(HEADERS) -static -nostdlib -fno-stack-protector -mno-mmx -mno-3dnow -fno-pie
+CFLAGS+=-ggdb -O0 -ffreestanding -I ../$(HEADERS) -static -nostdlib -fno-stack-protector -mno-mmx -mno-3dnow -fno-pie
 LDFLAGS+=-Wl,--gc-sections -static -nostdlib -no-pie
 
 # subdirectory for objects
