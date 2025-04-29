@@ -56,7 +56,6 @@ void DG_SetWindowTitle(const char * title) {}
 
 int main(int argc, char **argv) {
     doomgeneric_Create(argc, argv);
-    printf("Initialisation complete, beginning gameloop\n");
     for (;;) {
         doomgeneric_Tick();
     }
