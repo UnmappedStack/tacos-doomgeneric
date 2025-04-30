@@ -55,7 +55,8 @@ int DG_GetKey(int* pressed, unsigned char* doomKey) {
 void DG_SetWindowTitle(const char * title) {}
 
 int main(int argc, char **argv) {
-    printf("\x1b[2J\n\n\n\n\n\n\n");
+    printf("\x1b[2J");
+    for (size_t i = 0; i < 8; i++) printf("\n");
     doomgeneric_Create(argc, argv);
     for (;;) {
         doomgeneric_Tick();
