@@ -13,17 +13,27 @@ typedef struct {
     uint32_t *ptr;
 } Fb;
 
+typedef struct {
+    uint64_t pitch;
+    uint32_t bpp;
+} FbDevInfo;
+
 int kb_fd;
 Fb fb = {0};
 
-void get_fb_info(uint64_t *pitchbuf, uint64_t *bppbuf) {
-    __syscall2(24, (size_t) pitchbuf, (size_t) bppbuf);
+void get_fb_info(int fd, uint64_t *pitchbuf, uint64_t *bppbuf) {
+    FbDevInfo info = {0};
+    if (read(fd, &info, sizeof(uint64_t) * 2) < 0) {
+        printf("Failed to get framebuffer info.\n");
+        exit(-1);
+    }
+    *pitchbuf = info.pitch, *bppbuf = info.bpp;
 }
 
 void DG_Init() {
     // Init framebuffer
-    get_fb_info(&fb.pitch, &fb.bpp);
     fb.fd = open("/dev/fb0", 0, 0);
+    get_fb_info(fb.fd, &fb.pitch, &fb.bpp);
     if (fb.fd < 0) {
         printf("Failed to open framebuffer device.\n");
         exit(-1);
